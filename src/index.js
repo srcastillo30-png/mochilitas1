@@ -35,23 +35,41 @@ async function getTotal(env) {
 
 async function submitDonation(env, form) {
   if (!env.MOCHILITAS_KV) throw new Error('Falta configurar el almacenamiento MOCHILITAS_KV.');
+
   const nombre = String(form.get('nombre') || '').trim();
   const correo = String(form.get('correo') || '').trim();
   const metodo = String(form.get('metodo') || '').trim();
   const amount = Number(String(form.get('monto') || '').replace(/,/g, '').trim());
   const file = form.get('comprobante');
 
-  if (!nombre || !correo || !metodo || !Number.isFinite(amount) || amount <= 0) throw new Error('Completa todos los campos y coloca un monto válido.');
-  if (!(file instanceof File) || !file.size) throw new Error('Debes adjuntar el comprobante.');
-  if (file.size > MAX_FILE_BYTES) throw new Error('El comprobante supera el límite de 20 MB.');
+  if (!nombre || !correo || !metodo || !Number.isFinite(amount) || amount <= 0) {
+    throw new Error('Completa todos los campos y coloca un monto válido.');
+  }
+  if (!(file instanceof File) || !file.size) {
+    throw new Error('Debes adjuntar el comprobante.');
+  }
+  if (file.size > MAX_FILE_BYTES) {
+    throw new Error('El comprobante supera el límite de 20 MB.');
+  }
 
   const id = `${Date.now()}-${crypto.randomUUID()}`;
-  const metadata = { id, nombre, correo, metodo, monto: amount, filename: file.name || 'comprobante', contentType: file.type || 'application/octet-stream', submittedAt: new Date().toISOString() };
+  const metadata = {
+    id,
+    nombre,
+    correo,
+    metodo,
+    monto: amount,
+    filename: file.name || 'comprobante',
+    contentType: file.type || 'application/octet-stream',
+    submittedAt: new Date().toISOString()
+  };
+
   await env.MOCHILITAS_KV.put(RECEIPT_PREFIX + id, await file.arrayBuffer(), { metadata });
 
   const current = await getTotal(env);
   const next = current + amount;
   await env.MOCHILITAS_KV.put(TOTAL_KEY, String(next));
+
   return { total: next, amount };
 }
 
@@ -60,11 +78,18 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === '/api/counter' && request.method === 'GET') {
-      try { return json({ total: await getTotal(env), goal: GOAL }); }
-      catch (e) { console.error(e); return json({ total: 0, goal: GOAL }, 200); }
+      try {
+        return json({ total: await getTotal(env), goal: GOAL });
+      } catch (e) {
+        console.error(e);
+        return json({ total: 0, goal: GOAL }, 200);
+      }
     }
 
-    if (url.pathname === '/api/submit' && request.method === 'POST') {
+    // Accept the donation form on all of these paths so a static-assets
+    // routing mismatch cannot turn a valid submission into a 404.
+    const isSubmitPath = url.pathname === '/api/submit' || url.pathname === '/submit' || url.pathname === '/';
+    if (isSubmitPath && request.method === 'POST') {
       try {
         const result = await submitDonation(env, await request.formData());
         return thanksPage(result.amount);
@@ -72,6 +97,10 @@ export default {
         console.error(e);
         return errorPage(e?.message || 'Intenta nuevamente.');
       }
+    }
+
+    if ((url.pathname === '/api/submit' || url.pathname === '/submit') && request.method !== 'POST') {
+      return json({ ok: false, error: 'Este endpoint recibe el formulario mediante POST.' }, 405);
     }
 
     return env.ASSETS.fetch(request);
