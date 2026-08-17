@@ -20,6 +20,289 @@
 .impact{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:stretch}.impactImg{min-height:340px;border-radius:20px;background:url('https://commons.wikimedia.org/wiki/Special:FilePath/Children_receive_backpacks,_other_supplies_DVIDS217600.jpg?width=1400') center 57%/cover}.pillRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.pill{background:var(--soft);border-radius:999px;padding:8px 12px;font-weight:800;font-size:12px;color:#b52d68}
 .footer{background:#071b38;color:#d6e1ea;padding:46px 0}.footerGrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:35px}.footer h3{color:#fff;margin-top:0}.footer a{color:#d6e1ea;text-decoration:none}.copy{border-top:1px solid #ffffff24;margin-top:28px;padding-top:18px;font-size:12px;text-align:center;color:#9db0c0}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(120px);background:var(--blue);color:#fff;padding:12px 17px;border-radius:10px;font-size:13px;box-shadow:var(--shadow);transition:.25s;z-index:50}.toast.show{transform:translateX(-50%) translateY(0)}
 @media(max-width:900px){.links{display:none}.menu{display:block}.heroGrid,.donateBox,.impact,.verifyGrid{grid-template-columns:1fr}.heroCopy{padding:55px 0 35px}.hero h1{font-size:43px}.heroPhoto{height:390px;border-radius:0 0 0 45px}.trustGrid,.cards,.footerGrid,.progressGrid{grid-template-columns:1fr}.trustItem{border-right:0;border-bottom:1px solid #ffffff2d;padding:10px}.trustItem:last-child{border-bottom:0}.section{padding:54px 0}.bankRow{align-items:flex-start}.bankRow b{text-align:right}}
+
+
+/* =========================================================
+   MOCHILITAS — MOBILE RESPONSIVE PATCH
+   Visual/layout only. Donation logic, forms and scripts untouched.
+   ========================================================= */
+
+@media (max-width: 900px) {
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .wrap {
+    width: calc(100% - 28px) !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Undo visual-editor positioning that can push content off-screen */
+  .heroCopy,
+  .eyebrow,
+  .bank,
+  .method,
+  .secure,
+  .verify,
+  .verifyGrid,
+  .impact .card,
+  .sectionHead p,
+  .card {
+    transform: none !important;
+  }
+
+  .heroCopy,
+  .heroGrid,
+  .trustGrid,
+  .cards,
+  .donateBox,
+  .verify,
+  .verifyGrid,
+  .impact,
+  .footerGrid {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .heroGrid {
+    min-width: 0 !important;
+  }
+
+  .heroCopy {
+    min-width: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .hero h1 {
+    max-width: 100% !important;
+    overflow-wrap: anywhere;
+  }
+
+  .hero p,
+  .sectionHead p {
+    max-width: 100% !important;
+    overflow-wrap: anywhere;
+  }
+
+  .sectionHead p[style] {
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+  }
+
+  .donateBox > div,
+  .donateBox > div > div,
+  .bank,
+  .method,
+  .secure,
+  .form,
+  .verifyGrid > div,
+  .impact .card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .verify {
+    height: auto !important;
+    min-height: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .verifyGrid {
+    min-height: 0 !important;
+  }
+
+  .bankRow {
+    width: 100% !important;
+    min-width: 0 !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .bankRow > div {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .counter {
+    overflow-wrap: anywhere !important;
+  }
+
+  input,
+  select,
+  textarea,
+  input[type="file"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .form {
+    box-sizing: border-box !important;
+  }
+
+  .footerGrid {
+    min-width: 0 !important;
+  }
+
+  img, video, iframe {
+    max-width: 100% !important;
+    height: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .wrap {
+    width: calc(100% - 24px) !important;
+  }
+
+  .nav {
+    gap: 8px !important;
+  }
+
+  .brand {
+    min-width: 0 !important;
+    max-width: calc(100% - 50px) !important;
+  }
+
+  .brand .logo {
+    flex-shrink: 0 !important;
+    transform: none !important;
+  }
+
+  .brand b {
+    font-size: 20px !important;
+  }
+
+  .brand small {
+    font-size: 8px !important;
+    white-space: normal !important;
+  }
+
+  .links {
+    display: none;
+    position: absolute !important;
+    top: 70px !important;
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    max-width: none !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    padding: 12px !important;
+    z-index: 9999 !important;
+  }
+
+  /* The existing menu button uses inline display:flex on click.
+     Keeping .links at normal (not !important) display:none lets it open. */
+  .links a {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  .menu {
+    display: block !important;
+    flex-shrink: 0 !important;
+  }
+
+  .heroGrid {
+    display: block !important;
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+
+  .heroCopy {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .eyebrow {
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    font-size: 13px !important;
+  }
+
+  .hero h1 {
+    font-size: clamp(34px, 10vw, 46px) !important;
+    line-height: 1.06 !important;
+  }
+
+  .actions {
+    width: 100% !important;
+    gap: 10px !important;
+  }
+
+  .actions .btn {
+    max-width: 100% !important;
+  }
+
+  .cards {
+    grid-template-columns: 1fr !important;
+  }
+
+  .donateBox {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .verifyGrid {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .form {
+    padding: 20px !important;
+  }
+
+  .impact {
+    grid-template-columns: 1fr !important;
+  }
+
+  .impact .card {
+    width: 100% !important;
+  }
+
+  .pillRow {
+    flex-wrap: wrap !important;
+  }
+
+  .footerGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .heroGrid {
+    padding-top: 28px !important;
+    padding-bottom: 28px !important;
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .donateBox,
+  .verifyGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .footerGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
 </style>
 <style>
 /* ============================================
